@@ -1,0 +1,155 @@
+
+.dark {
+    --bg:#1e1e1e;
+    --bg-2:#31303059;
+    --bg-3:#36363678;
+}
+* {box-sizing: border-box;}
+body {font-family: system-ui, sans-serif;margin: 20px;background: #f9f9f9;
+    max-width: 800px;
+  padding:calc(8px + 1.5625vw);}
+p {
+    white-space: normal;
+    width: auto;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    margin:unset;
+    line-break: auto;
+}
+
+
+footer {
+    padding: 24px 0px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--link-color);
+    display: flex;
+  }
+
+
+
+
+  /* HEADER -------------------*/
+  header.siteHeader {
+    padding: 4px 0px;
+     background:var(--background);
+     z-index: 1;
+     position: sticky;
+     top: 0;
+     display: flex
+   }
+ 
+ 
+ nav {
+     display: flex;
+     gap: 4px;
+     height: 40px;
+     align-items: center;
+  
+ }
+ 
+ div#SearchBar {
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+input#search-input {
+  margin: 0;
+}
+
+
+ nav a {  padding: 2px 8px;}
+   button.toggle {
+     margin-left: auto;
+   }
+   
+   
+ 
+
+
+
+
+
+
+
+   /*------------*/
+
+   /* Sakura.css v1.5.0 with CSS Root Variables for Light and Dark Themes */
+
+/* Define the color themes using CSS root variables */
+:root {
+    --font-size: 14px;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --line-height: 1.518;
+    --primary-bg-color: #f9f9f9;
+    --secondary-bg-color: #f1f1f1;
+    --text-color: #4a4a4a;
+    --link-color: #757575b3;
+  }
+  
+  .dark-theme {
+    --primary-bg-color: #121212;
+    --secondary-bg-color: #1e1e1e;
+    --text-color: #e0e0e0;
+  }
+  
+  body {
+    line-height: var(--line-height);
+    margin: auto;
+    color: var(--text-color);
+    background-color: var(--primary-bg-color);
+    padding: 13px;
+  }
+  
+  
+  
+  a {
+    text-decoration: none;
+    color: var(--link-color);
+  }
+  
+  
+  
+  
+  /* Buttons, forms and input */
+  input, textarea {
+    border: 1px solid var(--input-border-color);
+  }
+  
+  
+  
+  .button[disabled], button[disabled], input[type=submit][disabled], input[type=reset][disabled], input[type=button][disabled], input[type=file]::file-selector-button[disabled] {
+    cursor: default;
+    opacity: 0.5;
+  }
+  
+  .button:hover, button:hover, input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover, input[type=file]::file-selector-button:hover {
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-color);
+    outline: 0;
+  }
+  
+  .button:focus-visible, button:focus-visible, input[type=submit]:focus-visible, input[type=reset]:focus-visible, input[type=button]:focus-visible, input[type=file]::file-selector-button:focus-visible {
+    outline-style: solid;
+    outline-width: 2px;
+  }
+  
+  textarea, select, input {
+    color: var(--text-color);
+    padding: 6px 10px;
+    margin-bottom: 10px;
+    background-color: var(--secondary-bg-color);
+    border: 1px solid var(--secondary-bg-color);
+    border-radius: 4px;
+    box-shadow: none;
+    box-sizing: border-box;
+  }
+  header.siteHeader {
+    position: sticky;
+    top: 0;
+}

@@ -1,0 +1,46 @@
+<header class="siteHeader">
+  <nav>
+    <a href="{{ .Site.BaseURL }}" class="">
+      <ion-icon name="home-outline"></ion-icon>
+      </a>
+ <!---    <a href="{{ .Site.BaseURL }}posts">Posts</a> --->
+    <a href="{{ .Site.BaseURL }}search">
+      <ion-icon name="search-outline"></ion-icon>
+    </a>
+
+    
+<!--- 
+    {{ if  "/" }}
+    <button class="toggle" onclick="toggleThreads()">Toggle Threads</button>
+    {{ end }}
+
+        {{ if strings.HasSuffix .RelPermalink "/posts/" }}
+  <button class="toggle" onclick="toggleThreads()">toggle</button>
+{{ end }}
+
+ -->
+
+ {{ if or (eq .Kind "home") (eq .Kind "section") }}
+ {{ if not (eq .Kind "search") }}
+     <button class="toggle" onclick="toggleThreads()">Toggle Threads</button>
+ {{ end }}
+{{ end }}
+
+<!--- 
+
+    {{ if in .RelPermalink "/posts" }}
+    <button class="toggle" onclick="toggleThreads()">toggle</button>
+    {{ end }}
+
+ -->
+
+  </nav>
+</header>
+
+
+<!--- 
+    <form action="/search" method="GET">
+        <input type="search" name="q" id="search-query" placeholder="Search....">
+        <button type="submit">Search</button>
+    </form>
+-->

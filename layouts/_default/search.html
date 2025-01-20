@@ -1,0 +1,588 @@
+{{ define "main" }}
+<!---{{ partial "header.html" . }}--->
+
+<main class="SearchPage">
+  <div id="SearchBar">
+    <input type="text" id="search-input" placeholder="Search posts..." />
+    <button id="search-button">Search</button>
+  </div>
+
+
+  <dialog id="postModal">
+    <div class="modal-content">
+      <header class="modalheader">
+      <button id="close-popup" class="close-btn">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+      <button id="copy-outline" class="copy-btn">
+        <ion-icon name="copy-outline"></ion-icon>
+      </button>
+    </header>
+      <div id="post-content" class="post-content"></div>
+    </div>
+  </dialog>
+
+
+  <div id="results-info"></div>
+  <div id="search-results"></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<script>
+  const username = "requeefiem";
+  let nav = document.querySelector('.siteHeader');
+  const input = document.getElementById("search-input");
+  const searchBar = document.getElementById("SearchBar");
+  const results = document.getElementById("search-results");
+  const searchButton = document.getElementById("search-button");
+  const resultsInfo = document.getElementById("results-info");
+  // Add search bar to the navigation
+ // nav.append(searchBar);
+
+  // Helper function to parse URL parameters
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  function convertLinksToAnchors(text) {
+  if (!text) return "";
+  
+  // Regex to match URLs (excluding Twitter/X URLs)
+  const urlRegex = /(https?:\/\/[^\s<]+[^\s.,?!<>"'|])/gi;
+  
+  // Replace URLs with <a> elements
+  return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+}
+
+  // Function to perform the search
+  function performSearch(searchTerm, fuse) {
+    if (searchTerm.length < 2) {
+      resultsInfo.innerHTML = "";
+      resultsInfo.innerHTML = "<strong>Please enter at least 2 characters to search.</strong>";
+      results.innerHTML = "";
+      return;
+    }
+
+    searchTerm = searchTerm.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    let result = fuse.search(searchTerm);
+
+    resultsInfo.innerHTML = `Found ${result.length} results for "<strong>${searchTerm}</strong>"`;
+
+    const twtRegex = /https:\/\/twitter\.com\/[A-Za-z0-9_]+\/status\/\d+|https:\/\/x\.com\/[A-Za-z0-9_]+\/status\/\d+/g;
+
+    // Set up DOM lazy loading with Intersection Observer
+    results.innerHTML = result
+      .map((item, index) => {
+        const page = item.item;
+        const wrappedLink = page.ask.match(twtRegex) ? `<div class="twitter-placeholder" data-link="${page.ask.replace('x.com','twitter.com')}"></div>` : "";
+        let hasThread = page.thread
+        let thread = hasThread ? `<div class="openThread" onclick="openPostPopup('${page.link}')"><span>Open Thread</span>
+          <i class="arrow"> <ion-icon name="chevron-forward-outline"></ion-icon></i>
+          </div>` : ""
+        // <u>${hasThread}</u>
+
+
+        const questionContent = convertLinksToAnchors(highlightSearchTerm(page.ask, searchTerm));
+
+
+        return `
+         <article class="Post" id="${page.title}" >
+           <div class="postHeader">
+          
+             <a class="index" href="${page.link}" data-link="${page.link}">
+         #${index + 1}
+       </a>
+      <!--- <a href="${page.link}" data-link="${page.link}">
+         <ion-icon name="open-outline" ></ion-icon>
+       </a>--->
+
+              <i href="${page.link}" class="copy-link-icon" onClick="copyLink('${page.link}')">
+         <ion-icon name="copy-outline" ></ion-icon>
+       </i>
+            </div>
+
+           <section class="Main">
+             <div class="Question">
+               <header><strong>Anonymous</strong></header>
+                ${wrappedLink}
+
+                <p>${questionContent}</p>
+            
+             </div>
+             <div class="Reply">
+               <header>
+                 <strong>${username}</strong>
+                 <small>${page.date}</small>
+               </header>
+               <p>${highlightSearchTerm(page.reply, searchTerm)}</p>
+             </div>
+           </section>
+           
+           <div class="postFooter">
+             ${thread}
+            </div>
+
+
+         </article>
+       `;
+      })
+      .join("");
+
+    // Use Intersection Observer for lazy rendering of Twitter blockquotes
+    lazyLoadTweets();
+    
+  }
+
+  // Function to highlight the search term in the text
+  function highlightSearchTerm(text, searchTerm) {
+    if (!text) return "";
+    const regex = new RegExp(`(${searchTerm})`, "gi");
+    return text.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  // Lazy loading logic with Intersection Observer
+  function lazyLoadTweets() {
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px 0px 900px 0px", // Trigger 200px earlier than viewport
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const placeholder = entry.target;
+          const tweetText = placeholder.getAttribute("data-link");
+          if (tweetText) {
+            const wrappedTwitterHTML = wrapTwitterLinks(tweetText);
+            placeholder.innerHTML = wrappedTwitterHTML;
+            console.log("Loaded tweet:", placeholder);
+
+            // Dynamically load Twitter embeds
+            if (window.twttr) {
+              window.twttr.widgets.load();
+            }
+          }
+          observer.unobserve(placeholder);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll(".twitter-placeholder").forEach(placeholder => {
+      observer.observe(placeholder);
+    });
+  }
+
+
+  // Wrap only the matched Twitter link
+  function wrapTwitterLinks(text) {
+    const match = text.match(/https:\/\/twitter\.com\/[A-Za-z0-9_]+\/status\/\d+/);
+    if (match) {
+      return `<blockquote class="twitter-tweet" data-chrome="transparent"><a href="${match[0]}"></a></blockquote>`;
+    }
+    return "";
+  }
+
+  let url = window.location.pathname.replace('/search/','')
+  console.log(url+"/index.json")
+  fetch(url+"/index.json")
+    .then((response) => response.json())
+    .then((data) => {
+      let pages = data;
+
+      const fuse = new Fuse(pages, {
+        keys: ['ask', 'reply'],
+        threshold: 0.2,
+        includeScore: true,
+        includeMatches: true,
+        shouldSort: false
+      });
+
+      const query = getQueryParam("q");
+      if (query) {
+        input.value = query;
+        performSearch(query, fuse);
+      }
+
+      searchButton.addEventListener("click", function () {
+        const searchTerm = input.value.trim();
+        performSearch(searchTerm, fuse);
+
+        const newUrl = `${window.location.pathname}?q=${encodeURIComponent(searchTerm)}`;
+        window.history.pushState({}, "", newUrl);
+      });
+
+      input.addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    const searchTerm = input.value.trim();
+    performSearch(searchTerm, fuse);
+
+    const newUrl = `${window.location.pathname}?q=${encodeURIComponent(searchTerm)}`;
+    window.history.pushState({}, "", newUrl);
+
+    event.preventDefault(); // Prevent form submission (if applicable)
+  }
+});
+
+
+      
+    });
+
+
+  // Open the post content in a popup dialog
+  function openPostPopup(postUrl) {
+    const postContent = document.getElementById("post-content");
+    postContent.setAttribute("data-post-url", postUrl); 
+    console.log(postUrl)
+    postContent.innerHTML = "<div class='loader'></div>"; // Show a loading message while fetching
+
+    // Fetch the content of the post
+    fetch(postUrl)
+      .then(response => {
+
+        if (!response.ok) {
+          throw new Error(`Failed to load post: ${response.statusText}`);
+        }
+        return response.text(); // Get the response as text (HTML)
+      })
+      .then(html => {
+        console.log(html)
+        postContent.innerHTML = html; // Inject the fetched HTML into the dialog
+
+        if (window.twttr) {
+          window.twttr.widgets.load();
+        }
+
+        cleanPostContent(); // Apply custom CSS or hide unwanted elements
+      })
+      .catch(error => {
+        postContent.innerHTML = `<p>Error loading content: ${error.message}</p>`;
+      });
+
+    const dialog = document.getElementById("postModal");
+    dialog.showModal(); // Show the dialog
+  }
+
+  // Function to apply custom CSS or hide unwanted elements
+  function cleanPostContent() {
+    const postContent = document.getElementById("post-content");
+    let thread = postContent.querySelector("details")
+    console.log(postContent)
+    postContent.querySelector('.siteHeader').remove()
+   /* postContent.querySelector('navigation').remove()*/
+    thread ? thread.setAttribute('open', true) : ""
+
+
+    // Example of hiding unwanted elements (if they have specific selectors)
+    const unwantedElements = postContent.querySelectorAll("navigation .siteHeader .header, footer, .menu");
+    console.log(unwantedElements)
+    unwantedElements.forEach(element => {
+      element.style.display = "none";
+    });
+  }
+
+  // Close the dialog when clicking the close button
+  document.getElementById("close-popup").addEventListener("click", closePopup);
+
+  // Close the dialog when clicking outside the content area
+  document.getElementById("postModal").addEventListener("click", function (event) {
+    if (event.target === this) {
+      closePopup();
+    }
+  });
+
+  // Function to close the dialog
+  function closePopup() {
+    const dialog = document.getElementById("postModal");
+    dialog.close(); // Close the dialog
+    const postContent = document.getElementById("post-content");
+    postContent.innerHTML = ""; // Clear the content to free memory
+  }
+
+
+
+  function showCopyPopup(message, targetContainer = document.body) {
+  const popup = document.createElement("div");
+  popup.className = "copy-popup";
+  popup.textContent = message;
+
+  // Append to the specified container (or body by default)
+  targetContainer.appendChild(popup);
+
+  // Automatically hide after 3 seconds
+  setTimeout(() => {
+    popup.classList.add("fade-out");
+    popup.addEventListener("transitionend", () => popup.remove());
+  }, 2000);
+}
+
+// Copy the URL of the post currently displayed in the modal
+document.getElementById("copy-outline").addEventListener("click", function () {
+  const postContent = document.getElementById("post-content");
+  const postUrl = postContent.getAttribute("data-post-url")//.querySelector("[data-post-url]");
+
+
+
+  navigator.clipboard.writeText(postUrl)
+    .then(() => {
+      // Pass .modal-content as the target container for the popup
+      const modalContent = document.querySelector(".modal-content");
+      showCopyPopup("Post URL copied to clipboard", modalContent);
+    })
+    .catch((err) => {
+      console.error("Failed to copy post URL:", err);
+    });
+});
+  // Add event delegation for copying links
+// Function to copy the link
+function copyLink(relativeLink) {
+  // Get the base URL dynamically
+  const baseURL = window.location.origin;
+  // Create the full URL
+  const fullURL = `${baseURL}${relativeLink}`;
+  // Copy the full URL to the clipboard
+  navigator.clipboard.writeText(fullURL)
+    .then(() => {
+      showCopyPopup("Post URL copied to clipboard");
+    })
+    .catch(err => {
+      console.error("Failed to copy link:", err);
+    });
+}
+
+// Function to show the popup notification
+function showCopyPopu1p(message) {
+  const popup = document.createElement("div");
+  popup.className = "copy-popup";
+  popup.textContent = message;
+
+  // Append to body
+  document.body.appendChild(popup);
+
+  // Automatically hide after 3 seconds
+  /*
+  setTimeout(() => {
+    popup.classList.add("fade-out");
+    popup.addEventListener("transitionend", () => popup.remove());
+  }, 20000);
+  */
+}
+
+
+</script>
+
+
+
+<style>
+  #results-info {
+    padding: 24px 0px;
+    font-size: 14px;
+  
+  }
+
+  #search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .elbi-results-item {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 10px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+  }
+
+  .highlight {
+    background-color: yellow;
+    background-color: #fff3a6;
+ background-color: #ffa6e06b;
+  }
+
+  /*DIALOG MODAL -------------------------*/
+  body:has(dialog[open]) {overflow: hidden}
+
+  dialog#postModal {
+    max-width: 700px;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    max-height: 100%;
+    height:100%;
+  }
+
+  .modal-content {
+
+    background: white;
+    height: -webkit-fill-available;
+
+    min-height: 100%;
+    min-width: 100%;
+
+
+    height: 100%;
+    min-height: 100%;
+    min-width: 100%;
+    overflow: auto;
+  }
+
+  iframe#post-iframe {
+    height: -webkit-fill-available;
+  }
+
+  dialog#post-popup {}
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  button#close-popup {
+    width: 32px;
+  }
+
+
+
+
+dialog#postModal {
+    border: 0px;
+    background: #a3a3a300;
+}
+
+::backdrop {
+    background: #000000ab;
+}
+
+.modal-content {
+    background: white;
+}
+
+button#close-popup {
+    position: sticky;
+    top: 0;
+}
+
+
+
+
+.modal-content {
+    /* padding: 10px; */
+    padding-bottom: 72px;
+    border-radius: 9px;
+    border-radius: 0px;
+}
+
+
+
+
+.modalheader button {
+    background: transparent;
+    color: var(--secondary);
+    font-size: 16px;
+    /* border: 1px solid; */
+    display: flex;
+    font-size: medium;
+}
+
+
+
+header.modalheader {
+        position: sticky;
+    top: 0;
+    border-bottom: 1px solid var(--dividers);
+    padding: 12px;
+    display: flex
+;
+    align-items: center;
+    gap: 12px;
+}
+
+
+
+
+
+
+
+
+
+.loader {
+  margin-top: 100px;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3; /* Light background for the spinner */
+    border-top: 5px solid #1f282d7f; /* Blue top part of the spinner */
+    border-radius: 50%; /* Makes it round */
+    animation: spin 1s linear infinite; /* Animation for the rotation */
+}
+
+/* Keyframes to create the spinning effect */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+div#post-content {
+    display: flex;
+   align-items: center; 
+    
+    justify-content: center;
+}
+
+
+
+.openThread {
+    padding-top: 6px;
+    /* text-decoration: underline; */
+    text-underline-offset: 1px;
+    background: var(--reply-bg);
+    margin-top: 8px;
+    border-radius: 5px;
+    border: 1px solid var(--reply-bg);
+    color: rgb(0 0 0 / 70%);
+}
+
+.openThread {
+    display: flex;
+    align-items: center;
+     cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+
+i.arrow {
+    /* background: #ffc0cb54; */
+    display: flex;
+    padding: 2px;
+    /* background: var(--reply-bg); */
+    /* border: 1px solid var(--reply-bg); */
+    color: #959595;
+    margin-left: auto;
+    border-radius: 4px;
+}
+
+
+
+.openThread .arrow {
+  transition: transform 0.2s ease;
+}
+
+.openThread:active {
+  transform: scale(0.98); /* Scale down slightly to indicate pressing */
+  background-color: #e0e0e0f2; /* Slightly darker background on press */
+}
+
+.openThread:active .arrow {
+  transform: translateX(2px); /* Move the arrow slightly to the right */
+}
+.index {text-decoration: none!important;}
+
+</style>
+
+
+{{ end }}

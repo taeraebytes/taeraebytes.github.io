@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="{{ "css/sakura.css" | relURL }}"> 
+    <link rel="stylesheet" href="{{ "css/pagination.css" | relURL }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    
+   <!---   <link rel="stylesheet" href="{{ "css/base.css" | relURL }}">
+
+
+    <link rel="stylesheet" href="{{ "css/post.css" | relURL }}">-->
+
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+   <!--- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> 
+      <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+      
+      
+        <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+  >
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kimeiga/bahunya/dist/bahunya.min.css">
+      <link rel="stylesheet" href="https://unpkg.com/axist@latest/dist/axist.min.css" />
+
+    <link rel="stylesheet" href="https://unpkg.com/awsm.css/dist/awsm.min.css">
+   <link rel="stylesheet" href="{{ "css/theme.css" | relURL }}">
+
+      -->
+
+      <link rel="stylesheet" href="{{ "css/theme/index.css" | relURL }}">
+
+  
+  <script  src="{{ "js/main.js" | relURL }}"></script>
+    <script  src="{{ "js/togglethreads.js" | relURL }}"></script>
+    <title>{{ block "title" . }} {{ .Site.Title }} {{ end }}</title>
+  </head>
+  <body>
+    {{ partial "header.html" . }}
+
+    <!---
+    {{ if or (eq .Kind "home") (eq .Kind "section") (eq .Kind "Search")  (.IsPage) }}
+    {{ partial "header.html" . }}
+  {{ end }}
+  --->
+
+
+
+
+
+  
+    <!-- Code that all your templates share, like a header -->
+    {{ block "main" . }}
+      <!-- The part of the page that begins to differ between templates -->
+    {{ end }}
+    {{ block "footer" . }}
+   
+    <!-- More shared code, perhaps a footer but that can be overridden if need be in  -->
+    {{ end }}
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  </body>
+</html>
+

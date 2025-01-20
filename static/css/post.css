@@ -1,0 +1,163 @@
+:root {
+  --border-color: #cccccc;
+}
+
+
+
+.Posts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+article.PostWrapper {
+  font-size: 14px;
+     border: 1px solid var(--border-color);
+     border-radius: 6px;
+     padding: 8px;
+ 
+ }
+ 
+ article.PostWrapper .Post {display:contents}
+ 
+
+
+/*POST -----------------*/
+.Post {
+  font-size: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px;
+}
+time {
+  font-size: 0.82em;
+  margin: 0;
+  height: 100%;
+  opacity: 0.7;
+}
+.Post p {margin:4px 0px}
+.Post header {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  grid-template-rows: auto 1fr; 
+  width: -webkit-fill-available;
+  gap: 0px 8px;
+  height: 34px;
+  line-height: normal;
+}
+.Post header::before {
+  content: "";
+  width: 34px; 
+  height: 34px; 
+  grid-row: span 2; 
+  justify-self: center; 
+  background-size: contain;
+  border-radius: 4px;
+}
+
+.Post .Question header::before {
+  background-image: url(/images/q.jpg);
+  background: pink; /* Replace with your image or color */
+  background-size: contain;
+}
+.Post .Reply header::before {
+   background: #ff8298; 
+   background-image: url(/images/a.jpg);
+   background-size: contain;
+}
+
+.Post header span {
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+
+.Question,.Reply {
+  padding: 8px;
+  border-radius: 6px;
+  line-break: anywhere
+}
+
+.Reply {
+  background: #ffc0cb82;
+}
+
+
+
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+
+
+a.postURL {
+  margin-left: auto;
+}
+span.index {
+  font-size: 13px;
+}
+
+.openThread {
+  /* border: 1px solid; */
+  padding: 8px;
+  font-size: 13px;
+  background: #ffc0cb45;
+}
+/*THREAD ----------------------*/
+
+summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+summary::after {
+  content: '';
+  width: 18px;
+  height: 10px;
+  background: url('/images/arrow.svg') no-repeat;
+  transition: 0.2s;
+}
+  /* url('https://uploads.sitepoint.com/wp-content/uploads/2023/10/1697699669arrow.svg')*/
+
+details[open] > summary::after {
+  transform: rotate(180deg);
+}
+
+summary::-webkit-details-marker {  display: none;}
+
+summary {
+  user-select: none;
+  color: #30353b;
+  border-radius: 5px;
+  cursor: pointer;
+
+
+}
+
+details[open] summary {border-radius: 5px 5px 0 0;}
+
+details.Thread {
+  /*padding: 4px;*/
+  background: #ffc0cb57;
+  border-radius: 4px;
+  padding: 8px; 
+  margin-bottom: 12px;
+  margin-top: 12px;
+
+}
+
+.Item {
+   /* border-bottom: 1px dashed var(--border-color);*/
+    /* background: #ffffff; */
+}
+
+

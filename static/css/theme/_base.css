@@ -1,0 +1,256 @@
+/*main,
+header,
+footer,
+article,
+section,
+aside,
+details,
+summary
+ {
+  margin: 0 auto;
+  margin-bottom: var(--md-pad);
+  width: 100%;
+}
+*/
+
+navigation {
+    margin-bottom: 24px;
+    display: block;
+}
+.twitter-tweet.twitter-tweet-rendered {
+    opacity: 0.95;
+}
+body {background: var(--background);}
+main {
+  display: block;
+  margin: 0 auto;
+  max-width: var(--lg-breakpoint);
+  padding: 0 var(--md-pad) var(--md-pad);
+}
+
+footer {
+  border-top: var(--border);
+  padding: var(--md-pad) 0;
+  text-align: center;
+}
+
+footer p {  margin-bottom: 0;}
+
+hr {
+  border: 0;
+  border-top: var(--border);
+  display: block;
+  margin-top: var(--md-pad);
+  margin-bottom: var(--md-pad);
+  width: 100%;
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: baseline;
+}
+
+@media screen and (max-width: var(--sm-breakpoint)) {
+  article,
+  section,
+  aside {
+    clear: both;
+    display: block;
+    max-width: 100%;
+  }
+
+  img {
+    margin-right: var(--md-pad);
+  }
+}
+
+embed,iframe,video {  border: 0;}
+
+progress {background-repeat: repeat;}
+
+
+
+nav {
+    position: sticky;
+    top: 0;
+    background: var(--background);
+    border-bottom:1px solid var(--dividers);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    a {
+        font-family: var(--monospace);
+        /* border: 1px solid; */
+        display: flex;
+        height: 100%;
+        min-height: 100%;
+        font-size: 18px;
+        padding: 3px;
+        border-radius: 4px;
+    }
+}
+
+
+
+div#SearchBar {
+    display: flex;
+    margin-top: 12px;
+    gap: 12px;
+}
+
+
+header.siteHeader {
+    position: sticky;
+    top: 0;
+    z-index: 9;
+}
+
+button.toggle {
+    margin-left: auto;
+}
+
+
+
+
+
+
+
+
+
+
+#myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: #110e0e; /* Set a background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 18px; /* Increase font size */
+
+    padding-bottom: 12px;
+  }
+  
+  #myBtn:hover {
+    background-color: #555; /* Add a dark-grey background on hover */
+  }
+
+
+  main.SinglePost {
+    padding-top: 32px;
+    padding-bottom: 72px;
+}
+
+main.SinglePost {
+    width: 100%;
+}
+
+
+ul.pagination.pagination-default {
+    margin: 16px;
+    margin-bottom: 80px;
+}
+button.toggle {
+    font-size: 14px;
+}
+
+p {white-space: pre-line;}
+
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+
+dialog#postModal {
+    padding: 0;
+}
+
+
+header.modalheader {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 9;
+    border-bottom: 1px dashed var(
+    --border-color);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Base styling for the popup */
+.copy-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    z-index: 1000;
+  
+  
+  
+  
+    background-color: var(--primary);
+      border: var(--primary);
+      border-radius: var(--br);
+      color: var(--white);
+      padding: var(--xs-pad) var(--sm-pad);
+      display: inline-block;
+      font-weight: 400;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      user-select: none;
+      border: 1px solid transparent;
+      font-family: var(--monospace);
+      /* font-size: 1rem; */
+      /* line-height: 1.5; */
+  
+  }
+  
+  /* Fade-out animation */
+  .copy-popup.fade-out {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  
+
+
+  .media img {
+    
+        border-radius: 4px;
+    
+  }

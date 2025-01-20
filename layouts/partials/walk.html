@@ -1,0 +1,26 @@
+<ul class="post-list">
+    <!-- Loop over pages (directories or sections) -->
+    {{ range .Pages.ByTitle }}
+        <!-- If the page has child pages (subdirectories), list the directory and recurse into it -->
+        {{ if .Pages }}
+            <li class="directory" id="directory-{{ .File.BaseFileName }}">
+                <a href="{{ .RelPermalink }}" class="directory-link">{{ .Title }}</a> <!-- Link to the directory (e.g., year/month) -->
+            </li>
+            {{ partial "walk.html" . }} <!-- Recurse into the subdirectory using the walk partial -->
+        {{ end }}
+    {{ end }}
+
+    <!-- Loop over pages (individual posts) -->
+    {{ range .Pages.ByTitle }}
+        <!-- If the page doesn't have child pages (it's a content file like a post), render the post -->
+        {{ if not .Pages }}
+            <li class="post" id="post-{{ .File.BaseFileName }}">
+                <!-- Link to the individual post -->
+                <a href="{{ .RelPermalink }}" class="post-link">{{ .Title }}</a>
+
+                <!-- Render the content of the post -->
+                <div class="post-content">{{ .Content }}</div> <!-- You could use {{ .Summary }} if you prefer a summary instead -->
+            </li>
+        {{ end }}
+    {{ end }}
+</ul>

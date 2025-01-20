@@ -1,0 +1,11 @@
+{{- $.Scratch.Add "index" slice -}}
+{{- range .Site.RegularPages -}}
+    {{- $.Scratch.Add "index" (dict 
+        "title" .Title 
+        "date" (dateFormat "2006-01-02" .Date) 
+        "ask" .Params.question 
+        "reply"  .Params.reply
+        "thread" .Params.inResponseTo
+        "link" .Permalink) -}}
+{{- end -}}
+{{- $.Scratch.Get "index" | jsonify -}}

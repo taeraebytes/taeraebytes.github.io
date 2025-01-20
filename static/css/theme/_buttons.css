@@ -1,0 +1,143 @@
+input[type=submit],
+input[type=reset],
+input[type=button],
+button {
+  background-color: var(--primary);
+  border: var(--primary);
+  border-radius: var(--br);
+  color: var(--white);
+  padding: var(--xs-pad) var(--sm-pad);
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  font-family: var(--monospace);
+  /* font-size: 1rem; */
+  /* line-height: 1.5; */
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+input[type=submit]::-moz-focus-inner,
+input[type=reset]::-moz-focus-inner,
+input[type=button]::-moz-focus-inner,
+button::-moz-focus-inner {
+  padding: 0;
+}
+
+input[type=submit]:hover,
+input[type=reset]:hover,
+input[type=button]:hover,
+button:hover {
+/*  background-color: var(--primary-600);
+  border-color: var(--primary-600);
+  color: var(--white);
+  */
+  cursor: pointer;
+}
+
+input[type=submit]:not(:disabled):active,
+input[type=reset]:not(:disabled):active,
+input[type=button]:not(:disabled):active,
+button:not(:disabled):active {
+    /*
+  background-color: var(--primary-600);
+ 
+  color: var(--white);
+  */
+  border-color: var(--border-color);
+}
+
+input[type=submit]:focus,
+input[type=reset]:focus,
+input[type=button]:focus,
+button:focus {
+  outline: 0;
+  /*box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.5);*/
+}
+
+input[type=submit]:disabled,
+input[type=reset]:disabled,
+input[type=button]:disabled,
+button:disabled {
+  opacity: .65;
+  cursor: not-allowed;
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+
+
+
+
+
+
+
+
+button.copy-link-icon {
+    display: flex;
+    color: unset;
+    background: transparent;
+    width: auto;
+}
+
+
+/* Base styling for the clickable icon */
+.copy-link-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* Indicates it's clickable */
+    color: #555; /* Default color */
+    transition: color 0.3s ease, transform 0.1s ease;
+  }
+  
+  /* Change color on hover */
+  .copy-link-icon:hover {
+     /*color: #ff0084; Accent color */
+  }
+  
+  /* Add visual feedback on active click */
+  .copy-link-icon:active {
+    transform: scale(0.9); /* Click feedback with a slight shrink */
+  }
+  
+  /* Tooltip styling (optional for better UX) */
+  .copy-link-icon[title] {
+    position: relative;
+  }
+  
+  .copy-link-icon[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 125%; /* Above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  
+  /* Tooltip initially hidden */
+  .copy-link-icon[title]::after {
+    opacity: 0;
+  }
+  
+  button#search-button {
+    min-width: 84px;
+    font-size: 14px;
+}
+
+button#search-button {
+   
+}

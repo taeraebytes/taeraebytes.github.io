@@ -1,0 +1,88 @@
+
+
+  /* Pagination Container */
+  ul.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 40px 0;
+    align-items: center;
+    width: 100%;
+    flex-direction: row;
+    margin-bottom: 100px!important;
+  }
+  
+  /* Pagination Items */
+  ul.pagination .page-item {
+    margin: 0 3px;
+  }
+  
+  /* Links */
+  ul.pagination .page-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 34px;  /* Fixed width */
+    height: 30px; /* Fixed height */
+    padding: 0;   /* Remove extra padding */
+    font-size: 0.8rem; /* Font size can be adjusted */
+    font-weight: 400;
+    color: #101010ba;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+    line-height: 1;  /* Prevents line height affecting button size */
+  }
+  
+  /* Active Page */
+  ul.pagination .page-item.active .page-link {
+    background-color: #383838f0;
+    color: #fff;
+    border-color: #00000057;
+  }
+  
+  /* Hover State */
+  ul.pagination .page-link:hover {
+    background-color: #f8f9fa;
+    border-color: #757575b3;
+  }
+  
+  /* Disabled State */
+  ul.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+  }
+  
+  /* First/Last Buttons */
+  ul.pagination .page-item a[aria-label="First"],
+  ul.pagination .page-item a[aria-label="Last"] {
+    /* Ensure same size */
+    font-size: 1.1rem;
+  }
+  
+  /* Previous/Next Buttons */
+  ul.pagination .page-item a[aria-label="Previous"],
+  ul.pagination .page-item a[aria-label="Next"] {
+    /* Ensure same size */
+   font-size: 1.1rem;
+  
+  }
+  
+  
+  /* Adjust the pagination for smaller screens */
+  @media (max-width: 768px) {
+    ul.pagination .page-link {
+      font-size: 0.9rem;
+      width: 30px;  /* Adjust width for small screens */
+      height: 30px; /* Adjust height for small screens */
+    }
+  }
+  
+
+  ul.pagination.pagination-default {
+    width: auto;
+}

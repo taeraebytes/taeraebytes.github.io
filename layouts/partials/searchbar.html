@@ -1,0 +1,44 @@
+<div class="header-search-bar">
+    <form action="/search/" method="get" class="search-form">
+      <input
+        type="text"
+        name="q"
+        placeholder="Search..."
+        aria-label="Search"
+        class="search-input"
+      />
+      <button type="submit" class="search-button">Search</button>
+    </form>
+  </div>
+  
+  <style>
+    /* Optional: Basic styles for the search bar */
+    .header-search-bar {
+      display: flex;
+      align-items: center;
+    }
+    .search-form {
+      display: flex;
+      flex-direction: row;
+    }
+    .search-input {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px 0 0 4px;
+      flex: 1;
+    }
+    .search-button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 0 4px 4px 0;
+    }
+    .search-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  

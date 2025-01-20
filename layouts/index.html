@@ -1,0 +1,83 @@
+{{ define "main" }}
+
+{{ $pages := where site.RegularPages "Type" "posts" }}
+{{ $sortedPages := $pages.ByTitle.Reverse }}
+{{ $paginator := .Paginate $sortedPages 30 }}
+
+<main class="Posts">
+{{ range $paginator.Pages }}
+  <article class="PostWrapper">
+
+    <div class="postHeader">
+    <!---  <span class="index">#{{ .Params.idx }}</span> -->
+
+    <a class="index" href='{{ .RelPermalink }}'>
+      #{{ .Params.idx }}
+    </a>
+
+      <a class="copy-btn copy-link-icon" onclick="copyLink('{{ .RelPermalink }}')">
+        <ion-icon name="copy-outline"></ion-icon>
+      </a>
+
+      <!---
+      <a class="postURL" href='{{ .RelPermalink }}'>
+        <ion-icon name="open-outline"></ion-icon>
+      </a>
+
+      -->
+
+       </div> 
+
+    {{ .Content }}
+
+  </article>
+{{ end }}
+   <!---
+<button onclick="topFunction()" id="myBtn" title="Go to top">
+  <ion-icon name="arrow-up-outline"></ion-icon>
+</button>
+
+--->
+
+
+</main>
+<script>
+// Function to show the popup notification
+function showCopyPopup(message) {
+  // Create the popup element
+  const popup = document.createElement("div");
+  popup.className = "copy-popup";
+  popup.textContent = message;
+  // Append to body and show it
+  document.body.appendChild(popup);
+  // Automatically hide after 3 seconds
+  setTimeout(() => {
+    popup.classList.add("fade-out");
+    popup.addEventListener("transitionend", () => popup.remove());
+  }, 2000);
+}
+
+function copyLink(relativeLink) {
+  console.log(relativeLink)
+  // Get the base URL dynamically
+  const baseURL = window.location.origin;
+  // Create the full URL
+  const fullURL = `${baseURL}${relativeLink}`;
+  // Copy the full URL to the clipboard
+  navigator.clipboard.writeText(fullURL)
+    .then(() => {
+      showCopyPopup("Post URL copied to clipboard");
+    })
+    .catch(err => {
+      console.error("Failed to copy link:", err);
+    });
+}
+
+
+
+
+
+</script>
+{{ template "_internal/pagination.html" . }}
+{{ end }}
+

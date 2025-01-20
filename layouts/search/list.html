@@ -1,0 +1,19 @@
+{{ define "main" }}
+  <h1>Posts</h1>
+
+  {{ $pages := where site.RegularPages "Type" "posts" }}
+  {{ $sortedPages := $pages.ByTitle.Reverse }}
+  {{ $paginator := .Paginate $sortedPages 30 }}
+
+  <div class="Posts">
+  {{ range $paginator.Pages }}
+    <article class="PostWrapper">
+      <div><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></div> 
+
+      {{ .Content }}
+    </article>
+  {{ end }}
+</div>
+
+  {{ template "_internal/pagination.html" . }}
+{{ end }}

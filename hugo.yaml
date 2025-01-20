@@ -1,0 +1,43 @@
+baseURL: "/"
+languageCode: "en-us"
+title: "CC Archive"
+theme: ""
+
+params:
+  username: "user"
+
+markup:
+  markup.goldmark:
+    markup.goldmark.renderer:
+      unsafe: true
+
+
+pagination:
+  disableAliases: false
+  pagerSize: 30
+  path: page
+
+disableFastRender: true
+
+outputs:
+  home: ["html","json"]
+
+minify:
+  minifyOutput: true
+
+
+excludeFiles: ['**node_modules**','data']
+
+disableKinds: ["taxonomy","taxonomyTerm","sitemap"] 
+
+
+
+pagination:
+  disableAliases: true
+  pagerSize: 30
+  path: page
+
+
+
+
+

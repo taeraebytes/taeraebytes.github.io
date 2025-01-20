@@ -1,0 +1,178 @@
+  /* VARIABLES -------------------*/
+  :root {
+    /* Primary Colors */
+    --background: var(--gray-50);
+
+    --primary-surface: var(--gray-100);
+    --secondary-surface: var(--gray-200);
+    --tertiary-surface: var(--gray-300);
+  
+    /* Text Colors */
+    --primary-text: var(--gray-900);
+    --secondary-text: var(--gray-700);
+    --tertiary-text: var(--gray-500);
+  
+    /* Border Colors */
+    --primary-border: var(--gray-300);
+    --secondary-border: var(--gray-400);
+    
+    /* Accent Colors */
+    --accent-color: #4ade80;  /* Tailwind Green 400 */
+    --accent-text: var(--gray-900);
+  
+    /* Disabled Colors */
+    --disabled-background: var(--gray-200);
+    --disabled-text: var(--gray-400);
+  }
+  
+:root {
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+  }
+
+  
+  :root {
+    --font-size: 14px;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --line-height: 1.618;
+    --max-width: 38em;
+  }
+
+
+  p {
+    white-space: normal;
+    width: auto;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    margin:unset
+}
+/* Body */
+html {
+    font-size: var(--font-size);
+    font-family: var(--font-family);
+  }
+  
+  body {
+    line-height: var(--line-height);
+    max-width: var(--max-width);
+    margin: auto;
+    color: var(--text-color);
+    background-color: var(--background);
+    padding: 13px;
+  }
+  
+  * {box-sizing: border-box;}
+body {font-family: system-ui, sans-serif;margin: 20px;background: #f9f9f9;}
+
+
+
+  /* HEADER -------------------*/
+  header.siteHeader {
+    padding: 4px 0px;
+     background:var(--background);
+     z-index: 1;
+     position: sticky;
+     top: 0;
+   }
+ 
+ 
+ nav {
+     display: flex;
+     gap: 4px;
+     height: 40px;
+     align-items: center;
+     width: -webkit-fill-available;
+ }
+ 
+ nav a {  padding: 2px 8px;}
+   button.toggle {
+     margin-left: auto;
+   }
+   
+   
+ 
+  
+
+
+
+
+
+
+
+/* POST -------------------*/
+
+:root{
+    --post-bg:var(--gray-50);
+    --border-color:var(--gray-200);
+    }
+
+.Post {
+   padding: 12px;
+   border-radius: 8px;
+   border: 1px solid var(--border-color);
+   background: var(--post-bg);
+   color:var(--primary-text);
+   position: relative;
+}
+
+
+.Post header {
+   display: grid;
+   grid-template-columns: 34px 1fr;
+   grid-template-rows: auto 1fr; 
+   width: -webkit-fill-available;
+   gap: 0px 8px;
+   height: 34px;
+   line-height: normal;
+ }
+ .Post header::before {
+   content: "";
+   width: 34px; 
+   height: 34px; 
+   grid-row: span 2; 
+   justify-self: center; 
+   background-size: contain;
+   border-radius: 4px;
+ }
+ 
+ .Post .Question header::before {
+   background-image: url(/images/q.jpg);
+   background: pink; /* Replace with your image or color */
+ }
+ .Post .Reply header::before {
+    background: #ff8298; 
+    background-image: url(/images/a.jpg);
+ }
+
+
+time {
+   font-size: 0.82em;
+   margin: 0;
+   height: 100%;
+   opacity: 0.7;
+}
+
+
+summary {color: var(--secondary-text);}
+
+.Post p {
+   margin: 4px 0px;
+}
+
+.Reply {
+   /* border: 1px solid; */
+   padding: 6px;
+   background: #e5e5e56e;
+   border-radius: 6px;
+}
+
+
+
